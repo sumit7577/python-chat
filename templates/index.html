@@ -1,0 +1,37 @@
+{% extends "first.html" %}
+{% block title %}Registration {% endblock %}
+{%block body %}
+<h1> Lets Get started </h1>
+<form action="{{ url_for("index")}}" method="POST">
+          <div>
+        {{ reg_form.username(class_="form-control", placeholder="Username", autocomplete="off", autofocus=True) }}
+        <ul>{% for error in reg_form.username.errors %}
+            <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+         <div>
+        {{ reg_form.password(class_="form-control", placeholder="Password") }}
+        <ul>{% for error in reg_form.password.errors %}
+            <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+         <div>
+        {{ reg_form.confirm(class_="form-control", placeholder="Confirm Password") }}
+        <ul>{% for error in reg_form.confirm.errors %}
+            <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+         <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-success">
+            </div>
+            {{ reg_form.csrf_token }}
+        </form>
+
+        <hr>
+
+        <p>Already registered? <a href={{url_for('login')}}>Login here</a>.</p>
+{% endblock %}
+
