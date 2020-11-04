@@ -10,7 +10,7 @@ from flask_login import UserMixin
 import time
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"]="postgres://ejtdwocbyatogy:3ac87db4ed30b2f264083f18ca9bc117f0722ad456315778bf777149fdc7bce1@ec2-3-91-139-25.compute-1.amazonaws.com:5432/d7n6ck6sniij8f"
+app.config["SQLALCHEMY_DATABASE_URI"]="add ur postegresql var"
 app.secret_key = "replace later"
 db = SQLAlchemy(app)
 
