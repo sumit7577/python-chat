@@ -5,13 +5,14 @@ from passlib.hash import pbkdf2_sha256
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, send, join_room, leave_room
 from flask_login import UserMixin
+import time
 import os
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"]=os.environ.get("DATABASE_URL")
-app.secret_key = os.environ.get("secret")
+app.config["SQLALCHEMY_DATABASE_URI"]="postgres://ejtdwocbyatogy:3ac87db4ed30b2f264083f18ca9bc117f0722ad456315778bf777149fdc7bce1@ec2-3-91-139-25.compute-1.amazonaws.com:5432/d7n6ck6sniij8f"
+app.secret_key = "secret"
 db = SQLAlchemy(app)
 
 
@@ -19,7 +20,7 @@ db = SQLAlchemy(app)
 socketio = SocketIO(app, manage_session=False)
 
 # Predefined rooms for chat
-ROOMS = ["Coding", "Apk-Crack", "Games", "Pron"]
+ROOMS = ["lounge", "news", "games", "coding"]
 
 #configure flask_login
 login = LoginManager(app)
@@ -119,7 +120,7 @@ def index():
 		user = User(username=username, password=enc_pass)
 		db.session.add(user)
 		db.session.commit()
-		flash("Regestration successfuly. Please Login", "success")
+		flash("Registration successfuly. Please Login", "success")
 		return redirect(url_for("login"))
 						
 	return render_template("index.html", reg_form = reg_form)
@@ -146,7 +147,7 @@ def chat():
 		if not current_user.is_authenticated:
 			flash("Please Login",  "danger")
 			return redirect(url_for("login"))
-		return render_template("chat.html")
+		return render_template("chat.html", rooms=ROOMS, username=current_user.username)
 
 
 @app.route("/logout", methods =["GET"])
@@ -156,4 +157,4 @@ def logout():
 	return redirect(url_for("login"))
 	
 if __name__ == "__main__":
-	app.run()
+	socketio.run(app, debug=True)
