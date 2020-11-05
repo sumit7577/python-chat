@@ -11,8 +11,7 @@ import time
 import os
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"]="postgres://rvnjbdilbbjtss:6d9ed6b4e948fbf5a1be7fbaf7f4a7c9b5800ab0452fba6c168ba91627b285a6@ec2-100-25-100-81.compute-1.amazonaws.com:5432/df6612g2gd1rt6"
-#"postgres://ejtdwocbyatogy:3ac87db4ed30b2f264083f18ca9bc117f0722ad456315778bf777149fdc7bce1@ec2-3-91-139-25.compute-1.amazonaws.com:5432/d7n6ck6sniij8f"
+app.config["SQLALCHEMY_DATABASE_URI"]="paste ur uri here"
 app.secret_key = "secret"
 db = SQLAlchemy(app)
 
